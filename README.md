@@ -1,5 +1,14 @@
-Spacer-App-Backend.
-Installation Guide
+Spacer-App-Backend
+
+Spacer-App-Backend is the backend service for the Spacer platform, a marketplace that allows users to find and book unique spaces for meetings, events, and activities. This backend is built using Flask and SQLAlchemy.
+Table of Contents
+
+    Prerequisites
+    Installation Guide
+    Contributors
+    Languages
+    Suggested Workflows
+
 Prerequisites
 
 Before proceeding with the installation, make sure you have the following prerequisites installed on your system:
@@ -7,77 +16,106 @@ Before proceeding with the installation, make sure you have the following prereq
     Python 3.8.13
     pip package manager
 
-Installation Steps
+Installation Guide
+Clone the Repository
 
-    Clone the repository:
+You can clone the repository using either HTTPS or SSH.
 
-    Using HTTPS
+Using HTTPS:
 
-    git clone https://github.com/allankimanzi2/Spacer-App-Backend.git
+sh
 
-Using SSH
+git clone https://github.com/allankimanzi2/Spacer-App-Backend.git
+
+Using SSH:
+
+sh
 
 git clone git@github.com:allankimanzi2/Spacer-App-Backend.git
 
-Navigate to the project directory:
+Navigate to the Project Directory
+
+sh
 
 cd Spacer-App-Backend
 
-Create a virtual environment :
+Create a Virtual Environment
+
+sh
 
 python -m venv .venv
 
-Activate the virtual environment :
+Activate the Virtual Environment
+
+For macOS/Linux:
+
+sh
 
 source .venv/bin/activate
 
-Install the project dependencies:
+For Windows:
+
+sh
+
+.venv\Scripts\activate
+
+Install Project Dependencies
+
+sh
 
 pip install -r requirements.txt
 
-About
-No description, website, or topics provided.
-Resources
-Readme
-Activity
-Stars
-0 stars
-Watchers
-1 watching
-Forks
-0 forks
-Releases
-No releases published
-Create a new release
-Packages
-No packages published
-Publish your first package
-Contributors 5
+Running the Application
+
+To run the application, use the following command:
+
+sh
+
+flask run
+
+Make sure your virtual environment is activated.
+Database Migrations
+
+Initialize the migrations directory:
+
+sh
+
+flask db init
+
+Create a new migration:
+
+sh
+
+flask db migrate -m "Initial migration."
+
+Apply the migration to the database:
+
+sh
+
+flask db upgrade
+
+Contributors
 
     @vinnyboss90
     @Abdighafar1
     @itzkirimi
     @abdullahi-abdi-12
     @allankimanzi2
-    
 
 Languages
 
-Python 93.8%
+    Python 93.8%
+    Mako 6.2%
 
-    Mako 6.2% 
+Suggested Workflows
 
-Suggested workflows
-Based on your tech stack
+Based on your tech stack, here are some suggested workflows:
+SLSA Generic Generator
 
-   
-SLSA Generic generator logo
-SLSA Generic generator
-Generate SLSA3 provenance for your existing release workflows
-Python application logo
-Python application
+Generate SLSA3 provenance for your existing release workflows.
+Python Application
 
-    Create and test a Python application.
+Create and test a Python application.
+License
 
-More workflows
-Footer
+MIT
