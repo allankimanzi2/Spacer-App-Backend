@@ -16,3 +16,13 @@ def login():
         return jsonify(access_token=access_token), 200
     else:
         return jsonify(message='Invalid username or password'), 401
+
+@app.route('/protected', methods=['GET'])
+@jwt_required()
+def protected():
+    current_user_id = get_jwt_identity()
+    user = User.query.get(current_user_id)
+    if user.role == 'admin':
+        return jsonify(message='This is a protected route for admins only.'), 200
+    else:
+        return jsonify(message='You are not authorized to access this route.'), 403
