@@ -28,19 +28,6 @@ jwt = JWTManager(app)
 def index():
     return "This is a basic Flask application"
 
-# Admin Login Route with JWT Authentication
-@app.route('/adminlogin', methods=['POST'])
-def adminlogin():
-    data = request.get_json()
-
-    # Check login credentials
-    if data['email'] == 'admin@gmail.com' and data['password'] == 'password':
-        expiration_time = timedelta(hours=1)
-        token = create_access_token(identity=data['email'], expires_delta=expiration_time)
-
-        return jsonify({"success": True, "message": "Login successful", "token": token, 'user_email': data['email'], 'role': 'admin'}), 200
-    else:
-        return jsonify({"success": False, "message": "Invalid credentials"}), 401
 
 # Add Space Route
 @app.route('/spaces', methods=['POST'])
