@@ -65,22 +65,6 @@ def add_user():
     db.session.commit()
     return jsonify({"success": True, "message": "User added successfully"}), 201
 
-# URL Route for getting all users
-@app.route('/users', methods=['GET'])
-def get_users():
-    users = User.query.all()
-    user_list = []
-    for user in users:
-        user_data = {
-            'id': user.id,
-            'username': user.username,
-            'email': user.email,
-            'role': user.role  # Include 'role' in the response
-        }
-        user_list.append(user_data)
-    return jsonify({"success": True, "users": user_list}), 200
-
-
 
 # Add Booking Route
 @app.route('/bookings', methods=['POST'])
@@ -91,24 +75,6 @@ def add_booking():
     db.session.commit()
     return jsonify({"success": True, "message": "Booking added successfully"}), 201
 
-# View All Bookings Route
-@app.route('/bookings', methods=['GET'])
-def get_bookings():
-    bookings = Booking.query.all()
-    booking_list = []
-    for booking in bookings:
-        booking_data = {
-            'id': booking.id,
-            'user_id': booking.user_id,
-            'space_id': booking.space_id,
-            'start_time': str(booking.start_time),  # Convert to string for JSON compatibility
-            'end_time': str(booking.end_time),  # Convert to string for JSON compatibility
-            'status': booking.status,
-            'payment_status': booking.payment_status,
-            'created_at': str(booking.created_at)  # Convert to string for JSON compatibility
-        }
-        booking_list.append(booking_data)
-    return jsonify({"success": True, "bookings": booking_list}), 200
 
 
 if __name__ == '__main__':
