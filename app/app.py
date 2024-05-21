@@ -1,13 +1,14 @@
 from flask import Flask, request, jsonify
-from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 from flask_bcrypt import Bcrypt
-from flask_jwt_extended import JWTManager, create_access_token
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required
 from datetime import timedelta
-from models import db, User, Space
+from models import db, User, Space, Booking
 from config import DATABASE_CONFIG  # Import the config
 import secrets
 
 app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
 app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{DATABASE_CONFIG['user']}:{DATABASE_CONFIG['pw']}@{DATABASE_CONFIG['host']}:{DATABASE_CONFIG['port']}/{DATABASE_CONFIG['db']}"
 
 # Generate a random secret key
@@ -27,8 +28,8 @@ def index():
     return "This is a basic Flask application"
 
 # Admin Login Route with JWT Authentication
-@app.route('/login', methods=['POST'])
-def login():
+@app.route('/adminlogin', methods=['POST'])
+def admin_login():
     data = request.get_json()
 
     # Check login credentials
@@ -42,6 +43,7 @@ def login():
 
 # Add Space Route
 @app.route('/spaces', methods=['POST'])
+#@jwt_required()  # Protect this route with JWT authentication
 def add_space():
     data = request.get_json()
     new_space = Space(name=data['name'], description=data['description'], location=data['location'], price_per_hour=data['price_per_hour'], owner_id=data['owner_id'])
@@ -71,11 +73,27 @@ def get_spaces():
 @app.route('/users', methods=['POST'])
 def add_user():
     data = request.get_json()
-    new_user = User(username=data['username'], email=data['email'], password=data['password'])
+    # Hash the password before storing it in the database
+    hashed_password = bcrypt.generate_password_hash(data['password']).decode('utf-8')
+    new_user = User(username=data['username'], email=data['email'], password=hashed_password)
     db.session.add(new_user)
     db.session.commit()
     return jsonify({"success": True, "message": "User added successfully"}), 201
 
+@app.route('/userlogin', methods=['POST'])
+def user_login():
+    data = request.get_json()
+
+    # Check if the user exists
+    user = User.query.filter_by(email=data['email']).first()
+
+    if user and bcrypt.check_password_hash(user.password, data['password']):
+        expiration_time = timedelta(hours=1)
+        token = create_access_token(identity=user.email, expires_delta=expiration_time)
+        return jsonify({"success": True, "message": "Login successful", "token": token, 'user_email': user.email, 'role': user.role}), 200
+    else:
+        return jsonify({"success": False, "message": "Invalid email or password"}), 401
+    
 # URL Route for getting all users
 @app.route('/users', methods=['GET'])
 def get_users():
@@ -90,8 +108,6 @@ def get_users():
         }
         user_list.append(user_data)
     return jsonify({"success": True, "users": user_list}), 200
-
-
 
 # Add Booking Route
 @app.route('/bookings', methods=['POST'])
@@ -120,6 +136,7 @@ def get_bookings():
         }
         booking_list.append(booking_data)
     return jsonify({"success": True, "bookings": booking_list}), 200
+
 
 if __name__ == '__main__':
     app.run(debug=True)
