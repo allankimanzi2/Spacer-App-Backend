@@ -26,6 +26,7 @@ class Space(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     bookings = db.relationship('Booking', backref='space', lazy=True)
 
+
 # Define Booking model
 class Booking(db.Model):
     __tablename__ = 'bookings'
@@ -37,3 +38,6 @@ class Booking(db.Model):
     status = db.Column(db.String(20), nullable=False, default='pending')
     payment_status = db.Column(db.String(20), nullable=False, default='unpaid')
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    # user = db.relationship('User', backref='bookings')
+    # space = db.relationship('Space', backref='bookings')

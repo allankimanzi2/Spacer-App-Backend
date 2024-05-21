@@ -6,8 +6,14 @@ Backend installation
 
 pip install flask-cors
 
+pip install Flask Flask-JWT
+pip install Flask Flask-JWT-Extended
+
+
 
 pip flask flask-sqlalchemy
+
+pip install Flask Flask-Bcrypt
 
 pip install alembic
 
