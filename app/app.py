@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from flask_bcrypt import Bcrypt
-from flask_jwt_extended import JWTManager, create_access_token, jwt_required
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity, unset_jwt_cookies
 from datetime import timedelta
 from models import db, User, Space, Booking
 from config import DATABASE_CONFIG  # Import the config
@@ -40,6 +40,20 @@ def admin_login():
         return jsonify({"success": True, "message": "Login successful", "token": token, 'user_email': data['email'], 'role': 'admin'}), 200
     else:
         return jsonify({"success": False, "message": "Invalid credentials"}), 401
+
+
+# Route for admin logout
+@app.route('/adminlogout', methods=['POST'])
+#@jwt_required()  # Protect this route with JWT authentication
+def admin_logout():
+    try:
+        # Unset JWT cookies to log the user out
+        response = jsonify({"success": True, "message": "Logout successful"})
+        unset_jwt_cookies(response)
+        return response, 200
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)}), 500
+
 
 # Add Space Route
 @app.route('/spaces', methods=['POST'])
