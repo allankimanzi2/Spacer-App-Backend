@@ -6,10 +6,11 @@ from datetime import timedelta
 from models import db, User, Space, Booking
 from config import DATABASE_CONFIG  # Import the config
 import secrets
-
+import os
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
-app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{DATABASE_CONFIG['user']}:{DATABASE_CONFIG['pw']}@{DATABASE_CONFIG['host']}:{DATABASE_CONFIG['port']}/{DATABASE_CONFIG['db']}"
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
+# postgres://spacer_xoj6_user:qWrKxjhca4KlQCKmaedwp9hl009rSisV@dpg-cp9u0nkf7o1s73a6s41g-a.oregon-postgres.render.com/spacer_xoj6
 
 # Generate a random secret key
 jwt_secret_key = secrets.token_hex(32)  # Generate a 32-byte (256-bit) random key
