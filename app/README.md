@@ -1,4 +1,5 @@
 ## Backend online installation
+source venv/bin/activate
 
 
 pip install flask-cors Flask Flask-JWT Flask Flask-JWT-Extended flask flask-sqlalchemy Flask Flask-Bcrypt flask_cors

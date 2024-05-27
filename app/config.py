@@ -3,7 +3,7 @@
 DATABASE_CONFIG = {
     'user': 'postgres',
 
-    'pw': 'enter your password',
+    'pw': 'kenya2023',
 
     'db': 'spacer',
     'host': 'localhost',
