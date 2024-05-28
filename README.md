@@ -23,7 +23,7 @@ Before proceeding with the installation, make sure you have the following prereq
 
 2. **Navigate to the project directory:**
 
-   ```bash
+   ```"bash
    cd Spacer-App-Backend
    ```
 
